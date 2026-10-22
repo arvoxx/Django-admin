@@ -1,0 +1,300 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{{ product.title }} | جزئیات محصول</title>
+
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/templatemo-lugx-gaming.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/owl.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/fonts.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css">
+
+    <style>
+        body {
+            text-align: right;
+        }
+
+        .single-product .left-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+        .product-description {
+            line-height: 2;
+            overflow-wrap: anywhere;
+        }
+
+        .product-meta {
+            list-style: none;
+            padding: 0;
+            margin-top: 25px;
+        }
+
+        .product-meta li {
+            margin-bottom: 12px;
+        }
+
+        .product-meta li span {
+            font-weight: 700;
+            margin-left: 8px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            opacity: 0.7;
+            margin-left: 8px;
+        }
+
+        .stock-status {
+            display: inline-block;
+            margin-top: 12px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div id="js-preloader" class="js-preloader">
+        <div class="preloader-inner">
+            <span class="dot"></span>
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+
+                        <a href="{% url 'home' %}" class="logo">
+                            <img src="{% static 'assets/images/logo.png' %}"
+                                 alt="لوگو"
+                                 style="width: 158px;">
+                        </a>
+
+                        <ul class="nav">
+                            <li>
+                                <a href="{% url 'home' %}">خانه</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'shop' %}">فروشگاه</a>
+                            </li>
+                            <li>
+                                <a href="#" class="active">جزئیات محصول</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'contact' %}">تماس با ما</a>
+                            </li>
+                        </ul>
+
+                        <a class="menu-trigger">
+                            <span>منو</span>
+                        </a>
+
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Heading -->
+    <div class="page-heading header-text">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <h3>{{ product.title }}</h3>
+
+                    <span class="breadcrumb">
+                        <a href="{% url 'home' %}">خانه</a>
+                        &gt;
+                        <a href="{% url 'shop' %}">فروشگاه</a>
+                        &gt;
+                        {{ product.title }}
+                    </span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Details -->
+    <div class="single-product section">
+        <div class="container">
+            <div class="row">
+
+                <!-- Product Image -->
+                <div class="col-lg-6">
+                    <div class="left-image">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}"
+                                 alt="{{ product.title }}">
+                        {% else %}
+                            <p>تصویری برای این محصول ثبت نشده است.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Product Information -->
+                <div class="col-lg-6 align-self-center">
+
+                    <h4>{{ product.title }}</h4>
+
+                    <span class="price">
+                        {% if product.discount_price %}
+                            <em class="old-price">{{ product.price }}</em>
+                            {{ product.discount_price }}
+                        {% else %}
+                            {{ product.price }}
+                        {% endif %}
+                    </span>
+
+                    <p class="product-description">
+                        {{ product.description|linebreaksbr }}
+                    </p>
+
+                    <ul class="product-meta">
+
+                        <li>
+                            <span>دسته‌بندی:</span>
+                            {{ product.category.title }}
+                        </li>
+
+                        <li>
+                            <span>شناسه محصول:</span>
+                            {{ product.id }}
+                        </li>
+
+                        <li>
+                            <span>موجودی:</span>
+                            {{ product.stock }}
+                        </li>
+
+                        <li>
+                            <span>وضعیت:</span>
+                            {% if product.stock > 0 %}
+                                <span class="stock-status">موجود</span>
+                            {% else %}
+                                <span class="stock-status">ناموجود</span>
+                            {% endif %}
+                        </li>
+
+                    </ul>
+
+                    <div class="main-button">
+                        <a href="{% url 'shop' %}">بازگشت به فروشگاه</a>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="sep"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- More Information -->
+    <div class="more-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="tabs-content">
+                        <div class="row">
+
+                            <div class="nav-wrapper">
+                                <ul class="nav nav-tabs" role="tablist">
+
+                                    <li class="nav-item" role="presentation">
+                                        <button
+                                            class="nav-link active"
+                                            id="description-tab"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#description"
+                                            type="button"
+                                            role="tab"
+                                            aria-controls="description"
+                                            aria-selected="true">
+                                            توضیحات محصول
+                                        </button>
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                            <div class="tab-content" id="myTabContent">
+
+                                <div
+                                    class="tab-pane fade show active"
+                                    id="description"
+                                    role="tabpanel"
+                                    aria-labelledby="description-tab">
+
+                                    <h5>{{ product.title }}</h5>
+
+                                    <p class="product-description">
+                                        {{ product.description|linebreaksbr }}
+                                    </p>
+
+                                    <p>
+                                        برای مشاهده سایر محصولات،
+                                        به
+                                        <a href="{% url 'shop' %}">
+                                            فروشگاه
+                                        </a>
+                                        مراجعه کنید.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="col-lg-12">
+                <p>
+                    کلیه حقوق محفوظ است.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/isotope.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl-carousel.js' %}"></script>
+    <script src="{% static 'assets/js/counter.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+
+</body>
+</html>
